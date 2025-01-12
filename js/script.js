@@ -55,6 +55,8 @@ function initSky() {
     ambientLight.name = "ambientLight";
     scene.add(ambientLight);
 
+    scene.fog = new THREE.Fog(0xFFC8EF, 0, 100);
+
     let effectController = {
         turbidity: 0.3,
         rayleigh: 4,
@@ -155,8 +157,8 @@ function initSky() {
         effectController.elevation = 25.8;
         effectController.azimuth = 180;
         effectController.exposure = 0.029;
-        amnientController.intensity = 0.1;
-        amnientController.color = '#ffffff';
+        amnientController.intensity = 7;
+        amnientController.color = '#FF9CDF';
         sunController.intensity = 6.3;
         sunController.color = '#ffffff';
         guiChanged();
@@ -221,11 +223,10 @@ function init() {
     currentCamera = cameraPersp;
 
     // Iniciar com visão frontal
-    currentCamera.position.set(0, 2, 5); // Altere aqui para ajustar a posição inicial
+    currentCamera.position.set(0, 1, 8); // Altere aqui para ajustar a posição inicial
     currentCamera.lookAt(0, 0, 0); // Aponta para o centro da cena
 
     scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0xffffff, 1, 10);
     initSky();
 
 }
@@ -262,7 +263,35 @@ function addCube() {
     }
     cube.castShadow = true; // Lança sombra
     cube.receiveShadow = true; // Recebe sombra
+    cube.position.set(2, 0, 0);
     scene.add(cube);
+}
+
+function importSpecificModel(filePath) {
+    // `filePath` deve ser o caminho relativo ao arquivo .glb na pasta raiz.
+    fetch(filePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar o arquivo: ${response.statusText}`);
+            }
+            return response.arrayBuffer();
+        })
+        .then(arrayBuffer => {
+
+            const loader = new GLTFLoader();
+            loader.parse(arrayBuffer, '', function (gltf) {
+                const model = gltf.scene;
+        
+                model.position.set(0, 0, -10);
+                model.rotation.y = THREE.MathUtils.degToRad(-90);
+        
+                scene.add(model);
+            });
+
+        })
+        .catch(error => {
+            console.error('Erro ao importar o modelo:', error);
+        });
 }
 
 function onWindowResize() {
@@ -296,16 +325,18 @@ function moveScreenWithMouse(event) {
     const mouseY = -(event.clientY / window.innerHeight) * 2 + 1; // Normaliza para o intervalo [-1, 1]
 
     // Definir o fator de movimento
-    const movementFactor = 20; // Fator para controlar o movimento da tela
+    const movementFactor = 10; // Fator para controlar o movimento da tela
+    const movementFactorbuttons = 30; // Fator para controlar o movimento da tela
 
     // Criar o movimento e rotação
-    const translateX = mouseX * movementFactor;
-    const translateY = mouseY * 2;
-    const rotateX = mouseY * 10;  // Controla a rotação no eixo X
-    const rotateY = mouseX * 10;  // Controla a rotação no eixo Y
+    const translateX = -mouseX * movementFactorbuttons;
+    const translateY = mouseY * movementFactorbuttons;
+    const rotateX = mouseY * movementFactor;  // Controla a rotação no eixo X
+    const rotateY = -mouseX * movementFactor;  // Controla a rotação no eixo Y
+    const rotateY2 = mouseY * movementFactorbuttons;  // Controla a rotação no eixo Y
 
     // Atualiza o estilo da div
-    screenDiv.style.transform = `translate(-50%, -50%) translate3d(${translateX}px, ${translateY}px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    screenDiv.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     // Atualizando a posição dos botões
     buttonsContainer.style.transform = `translate(-50%, -50%) translate3d(${translateX}px, ${translateY}px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 }
@@ -325,4 +356,6 @@ goTo.addEventListener('click', function () {
 // Chamar a função de efeito parallax
 init();
 render();
+//addCube()
+importSpecificModel('model/indexScene.glb')
 addParallaxEffect();

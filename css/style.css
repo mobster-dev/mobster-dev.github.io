@@ -14,17 +14,17 @@ body {
 
 #screen {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
-    width: 900px;
-    height: 450px;
+    width: 600px;
+    height: 300px;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     transition: transform 0.1s ease-out; /* Suaviza o movimento */
     transform: translate(-50%, -50%);  /* Centraliza a div */
-    box-shadow: 0 0 50px 10px rgba(255, 255, 255, 0.7); /* Contorno brilhante */
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.7); /* Contorno brilhante */
     pointer-events: none; /* Para não interferir em interações do mouse */
     align-items: center;
     text-align: center;
@@ -32,7 +32,7 @@ body {
 
 #buttons-container {
     position: absolute;
-    top: 85%;
+    top: 65%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -41,22 +41,25 @@ body {
 }
 
 .button {
-    width: 200px;
-    height: 50px;
+    width: 150px;
+    height: 40px;
     background-color: rgba(255, 255, 255, 0);
     border: none;
     border-radius: 5px;
     color: white;
     font-size: 14px;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-    box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.774); /* Sombra para os botões */
-    pointer-events:auto;
+    transition: transform 0.2s ease-in-out, width 0.2s ease-in-out, height 0.2s ease-in-out; /* Animação para o tamanho também */
+    border: 1px solid #959191;
+    pointer-events: auto;
 }
 
 .button:hover {
-    background-color: rgba(255, 255, 255, 0.4); /* Efeito de hover */
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.774); /* Sombra para os botões */
+    background-color: rgba(255, 255, 255, 0.176); /* Efeito de hover */
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.529); /* Sombra para os botões */
+    font-size: 16px;
+    width: 160px;
+    height: 45px;
 }
 
 #iframe-container {
@@ -70,7 +73,6 @@ body {
     cursor: pointer;
     width: 100%;
     height: 100%;
-    pointer-events:auto;
 }
 #goTo {
     position: absolute;
