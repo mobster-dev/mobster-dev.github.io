@@ -4,6 +4,22 @@ body {
     margin: 0; 
     overflow: hidden;
 }
+
+#splash-screen {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    z-index: 3;
+    opacity: 1;
+    transition: opacity 2s ease-in-out
+}
+
+#splash-screen.fade-out {
+    opacity: 0;
+}
+
 #viewer {
     position: absolute;
     top: 0;
@@ -12,54 +28,68 @@ body {
     height: 100vh;
 }
 
+.screen-theme-default {
+    box-shadow: 0 10px 80px 20px rgba(112, 112, 112, 0.401);
+    background-color: #fff;
+    border: 1px solid rgba(228, 228, 228, 0.7);
+}
+
+.screen-theme1 {
+    box-shadow: 0 0 150px 10px rgba(130, 77, 236, 0.7);
+    background-color: #fff;
+    border: 1px solid rgba(130, 77, 236, 0.7);
+}
+
+.screen-theme2 {
+    box-shadow: 0 0 150px rgba(197, 65, 207, 0.7);
+    background-color: #fff;
+    border: 1px solid rgba(197, 65, 207, 0.7);
+}
+
 #screen {
     position: absolute;
-    top: 40%;
+    top: 43%;
     left: 50%;
     width: 600px;
     height: 300px;
-    background-color: #fff;
-    border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.1s ease-out; /* Suaviza o movimento */
-    transform: translate(-50%, -50%);  /* Centraliza a div */
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.7); /* Contorno brilhante */
-    pointer-events: none; /* Para não interferir em interações do mouse */
+    background-color: rgb(32, 32, 32);
+    transition: transform 0.1s ease-out;
+    transform: translate(-50%, -50%);
+    transition: box-shadow 1s ease-in-out;
     align-items: center;
     text-align: center;
 }
 
 #buttons-container {
     position: absolute;
-    top: 65%;
+    top: 72%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 100px;
-    pointer-events:none;
 }
 
 .button {
-    width: 150px;
-    height: 40px;
-    background-color: rgba(255, 255, 255, 0);
+    width: 140px;
+    height: 50px;
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.193), rgba(0, 0, 0, 0));
     border: none;
     border-radius: 5px;
-    color: white;
+    color: rgb(255, 255, 255);
     font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out, width 0.2s ease-in-out, height 0.2s ease-in-out; /* Animação para o tamanho também */
+    transition: transform 0.2s ease-in-out, width 0.2s ease-in-out, height 0.2s ease-in-out;
     border: 1px solid #959191;
-    pointer-events: auto;
 }
 
 .button:hover {
-    background-color: rgba(255, 255, 255, 0.176); /* Efeito de hover */
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.529); /* Sombra para os botões */
+    background-color: rgba(255, 255, 255, 0.176);
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.529);
     font-size: 16px;
-    width: 160px;
-    height: 45px;
+    width: 163px;
+    height: 58px;
 }
 
 #iframe-container {
@@ -67,13 +97,17 @@ body {
     cursor: pointer;
     width: 100%;
     height: 100%;
+    border-radius: 5px;
 }
 
 #iframe {
     cursor: pointer;
     width: 100%;
     height: 100%;
+    border-radius: 5px;
+    pointer-events:none;
 }
+
 #goTo {
     position: absolute;
     left: 90%;
@@ -84,11 +118,161 @@ body {
     width: 50px;
     height: 50px;
     font-size: large;
-    pointer-events:auto;
 }
 
 #about {
     display: block;
-    color: rgba(0, 0, 0, 0.752);
+    color: rgba(255, 255, 255, 0.752);
     font-size: larger;
+}
+
+#wellcome {
+    display: block;
+    color: rgba(255, 255, 255, 0.752);
+    font-size: larger;
+}
+
+.shockwave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.118) 10%, rgba(255, 255, 255, 0) 50%);
+    pointer-events: none;
+    transform: scale(1) ;
+    z-index: 1;
+    animation: shockwave-animation 2s ease-out forwards;
+}
+  
+@keyframes shockwave-animation {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(100); 
+        opacity: 0;
+    }
+}
+
+.menus-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 35%;
+    right: 1%;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.menus {
+    writing-mode: vertical-rl; 
+    background: transparent; 
+    border: none; 
+    border-radius: 20px; 
+    color: white; 
+    font-size: 12px;
+    padding: 10px 10px; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    transition: all 0.3s ease; 
+}
+
+.menus:hover {
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.529);
+}
+
+.sound {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    position: relative;
+    width: 35px;
+    height: 85px;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.sound:hover {
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.529);
+}
+
+.sound-icon {
+    color: rgb(61, 61, 61);
+    font-size: 14px;
+    margin-block: 10px;
+}
+
+.sound.active .sound-icon {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.sound.active {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: linear-gradient(
+        45deg,
+        rgba(198, 65, 207, 0.963),
+        rgba(130, 77, 236, 0.5),
+        rgba(0, 168, 87, 0.648),
+        rgba(198, 65, 207, 0.963)
+    );
+    background-size: 300% 300%; 
+    animation: gradient-shift 6s infinite, pulse 3s infinite; 
+}
+
+@keyframes pulse {
+    0%, 40% { 
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(197, 65, 207, 0.5),
+                    0 0 12px rgba(130, 77, 236, 0.5),
+                    0 0 15px rgba(45, 144, 96, 0.5);
+    }
+    45% {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(197, 65, 207, 0.5),
+                    0 0 12px rgba(130, 77, 236, 0.5),
+                    0 0 15px rgba(45, 144, 96, 0.5);
+    }
+    43%, 50% { 
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(197, 65, 207, 0.5),
+                    0 0 12px rgba(130, 77, 236, 0.5),
+                    0 0 15px rgba(45, 144, 96, 0.5);
+    }
+    50%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(197, 65, 207, 0.5),
+                    0 0 12px rgba(130, 77, 236, 0.5),
+                    0 0 15px rgba(45, 144, 96, 0.5);
+    }
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 80%;
+        transform: rotate(0deg); 
+    }
+    15%{
+        transform: rotate(90deg); 
+    }
+    50% {
+        background-position: 100% 30%;
+        transform: rotate(180deg);
+    }
+    75%{
+        transform: rotate(200deg);
+    }
+    100% {
+        background-position: 0% 80%;
+        transform: rotate(360deg);
+    }
 }

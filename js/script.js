@@ -1,37 +1,54 @@
 import * as THREE from 'three';
 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { Sky } from 'three/addons/objects/Sky.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OutlineEffect } from 'three/addons/effects/OutlineEffect.js';
+import { Lensflare, LensflareElement } from 'three/addons/objects/Lensflare.js';
 
 let cameraPersp, cameraOrtho, currentCamera;
 let scene, renderer;
+let modelScene;
+let initial = true;
 
 const screenDiv = document.getElementById('screen');
 const buttonsContainer = document.getElementById('buttons-container');
-const dropy = document.getElementById('dropy');
+const myWork = document.getElementById('my-work');
 const about = document.getElementById('about');
+const linkedin = document.getElementById('linkedin');
 const iframeContainer = document.getElementById('iframe-container');
-const goTo = document.getElementById('goTo');
 const iframe = document.getElementById('iframe');
+const buttonAbout = document.getElementById('button-about');
+const splashScreen = document.getElementById('splash-screen')
+
+const sound = document.getElementById('sound')
+
+const select = document.getElementById('select')
+const impact = document.getElementById('impact')
+select.volume = 0.2
+impact.volume = 0.2
+
 
 let sky_config_gui;
-let sky, sun;
+let sky, sun, stars 
 const sunLight = new THREE.DirectionalLight(0xffffff, 4);
 const ambientLight = new THREE.AmbientLight(0xffffff);
 
 const clock = new THREE.Clock();
+
 const viewerDiv = document.getElementById('viewer');
+
+function isMobileScreen() {
+    return window.innerWidth <= 768
+}
+
+const isMobile = isMobileScreen()
 
 function initSky() {
 
     // Add Sky
     sky = new Sky();
     sky.name = "sky";
-    sky.scale.setScalar( 450000 );
+    sky.scale.setScalar( 10 );
     scene.add( sky );
 
     sun = new THREE.Vector3();
@@ -50,12 +67,10 @@ function initSky() {
     sunLight.shadow.radius = 2;
     sunLight.shadow.blurSamples = 20;
     sunLight.shadow.bias = - 0.0001;
-    scene.add(sunLight);
 
     ambientLight.name = "ambientLight";
-    scene.add(ambientLight);
 
-    scene.fog = new THREE.Fog(0xFFC8EF, 0, 100);
+    scene.fog = new THREE.Fog(0x824dec, 0, 100);
 
     let effectController = {
         turbidity: 0.3,
@@ -156,39 +171,43 @@ function initSky() {
         effectController.mieDirectionalG = 0.975;
         effectController.elevation = 25.8;
         effectController.azimuth = 180;
-        effectController.exposure = 0.029;
+        effectController.exposure = 0.01;
         amnientController.intensity = 7;
-        amnientController.color = '#FF9CDF';
+        amnientController.color = '#824dec';
         sunController.intensity = 6.3;
         sunController.color = '#ffffff';
         guiChanged();
         updateGUI();
     }
 
-    function setDefault() {
-        effectController.turbidity = 0.3;
-        effectController.rayleigh = 4;
-        effectController.mieCoefficient = 0.024;
-        effectController.mieDirectionalG = 0.975;
-        effectController.elevation = 35.8;
-        effectController.azimuth = 180;
-        effectController.exposure = 0.1888;
-        amnientController.intensity = 2;
-        amnientController.color = '#ffffff';
-        sunController.intensity = 5;
-        sunController.color = '#ffffff'
-        guiChanged(); 
-        updateGUI();
-    }
-
-    
-    presets.add({ setDefault }, 'setDefault').name('Padrão');
     presets.add({ setNight2 }, 'setNight2').name('Noite 2');
 
     guiChanged();
     sky_config_gui = skyConfigsGUI.domElement;
     sky_config_gui.style.display = 'none';
     setNight2()
+
+    // Geometria de partículas (estrelas)
+    const starGeometry = new THREE.BufferGeometry();
+    const starCount = 2000
+
+    const positions = new Float32Array(starCount * 3)
+    for (let i = 0; i < starCount; i++) {
+        positions[i * 3] = Math.random() * 200 - 50
+        positions[i * 3 + 1] = Math.random() * 200 - 50
+        positions[i * 3 + 2] = Math.random() * 20 - 50
+    }
+    starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const starMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.2,
+        transparent: true,
+        opacity: 0.5
+    });
+
+    stars = new THREE.Points(starGeometry, starMaterial);
+    scene.add(stars);
 
 }
 
@@ -223,52 +242,92 @@ function init() {
     currentCamera = cameraPersp;
 
     // Iniciar com visão frontal
-    currentCamera.position.set(0, 1, 8); // Altere aqui para ajustar a posição inicial
-    currentCamera.lookAt(0, 0, 0); // Aponta para o centro da cena
+    currentCamera.position.set(0, 1, 8)
+    currentCamera.lookAt(0, 0, 0)
 
-    scene = new THREE.Scene();
-    initSky();
+    scene = new THREE.Scene()
+    initSky()
 
+}
+
+let currentCameraX = 0
+let currentCameraY = 0
+let targetCameraX = 0
+let targetCameraY = 0
+
+let currentTranslateX = 0
+let currentTranslateY = 0
+let targetTranslateX = 0
+let targetTranslateY = 0
+
+let currentTranslateXButtons = 0
+let currentTranslateYButtons = 0
+let targetTranslateXButtons = 0
+let targetTranslateYButtons = 0
+
+let currentRotateX = 0
+let currentRotateY = 0
+let targetRotateX = 0
+let targetRotateY = 0
+
+function lerp(start, end, amount) {
+    return start + (end - start) * amount 
+}
+
+function updateSmoothPositions() {
+    currentCameraX = lerp(currentCameraX, targetCameraX, 0.03)
+    currentCameraY = lerp(currentCameraY, targetCameraY, 0.03)
+
+    currentCamera.position.x = currentCameraX
+    currentCamera.position.y = currentCameraY
+    currentCamera.lookAt(0, 0, 0)
+
+    currentTranslateX = lerp(currentTranslateX, targetTranslateX, 0.03)
+    currentTranslateY = lerp(currentTranslateY, targetTranslateY, 0.03)
+
+    currentRotateX = lerp(currentRotateX, targetRotateX, 0.05)
+    currentRotateY = lerp(currentRotateY, targetRotateY, 0.05)
+
+    screenDiv.style.transform = `translate(-50%, -50%) translate3d(${currentTranslateX}px, ${currentTranslateY}px, 0) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`
+
+    currentTranslateXButtons = lerp(currentTranslateXButtons, targetTranslateXButtons, 0.03)
+    currentTranslateYButtons = lerp(currentTranslateYButtons, targetTranslateYButtons, 0.03)
+
+    buttonsContainer.style.transform = `translate(-50%, -50%) translate3d(${currentTranslateXButtons}px, ${currentTranslateYButtons}px, 0) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`
+
+    requestAnimationFrame(updateSmoothPositions)
+}
+
+function moveScreenWithMouse(event) {
+    const mouseX = (event.clientX / window.innerWidth) - 0.5
+    const mouseY = (event.clientY / window.innerHeight) - 0.5
+
+    const movementFactor = 10
+    const movementFactorButtons = 200
+
+    targetCameraX = Math.max(-3.5, Math.min(3.5, mouseX * 1.5))
+    targetCameraY = Math.max(-3.5, Math.min(3.5, -mouseY * 1.0))
+
+    targetTranslateX = -mouseX * movementFactor
+    targetTranslateY = -mouseY * movementFactor
+
+    targetRotateX = mouseY * -20;
+    targetRotateY = mouseX * -2000
+
+    targetRotateX = targetRotateX;
+    targetRotateY = Math.max(-1, Math.min(1, targetRotateY))
+
+    targetTranslateXButtons = -mouseX * movementFactorButtons
+    targetTranslateYButtons = -mouseY * movementFactorButtons/2
 }
 
 function addParallaxEffect() {
-    const parallaxAmount = 1.5; // Ajuste a sensibilidade
-    const maxOffset = 3.5; // Limite máximo de deslocamento
-
-    viewerDiv.addEventListener('mousemove', (event) => {
-        const rect = viewerDiv.getBoundingClientRect();
-        const mouseX = (event.clientX - rect.left) / rect.width - 0.5;
-        const mouseY = (event.clientY - rect.top) / rect.height - 0.5;
-
-        // Calcular o deslocamento da câmera com base no mouse
-        const offsetX = Math.max(-maxOffset, Math.min(maxOffset, mouseX * parallaxAmount));
-        const offsetY = Math.max(-maxOffset, Math.min(maxOffset, -mouseY * 1.0));
-
-        // Aplicar o deslocamento na posição da câmera
-        currentCamera.position.x = offsetX;
-        currentCamera.position.y = offsetY; // Manter altura base em 2
-
-        // Manter a câmera apontando para o centro da cena
-        currentCamera.lookAt(0, 0, 0);
+    window.addEventListener('mousemove', (event) => {
+        moveScreenWithMouse(event);
     });
 }
 
-function addCube() {
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
-    const cube = new THREE.Mesh(geometry, material);
-    cube.userData = {
-        "synchronizable": true,
-        "interactive": true
-    }
-    cube.castShadow = true; // Lança sombra
-    cube.receiveShadow = true; // Recebe sombra
-    cube.position.set(2, 0, 0);
-    scene.add(cube);
-}
-
 function importSpecificModel(filePath) {
-    // `filePath` deve ser o caminho relativo ao arquivo .glb na pasta raiz.
     fetch(filePath)
         .then(response => {
             if (!response.ok) {
@@ -280,12 +339,20 @@ function importSpecificModel(filePath) {
 
             const loader = new GLTFLoader();
             loader.parse(arrayBuffer, '', function (gltf) {
-                const model = gltf.scene;
+                modelScene = gltf.scene;
+
+                modelScene.traverse(function (object) {
+                    if (object.isMesh || object.name == 'Plane' || object.name == 'Point002_Orientation' || object.name == 'Point003_Orientation') {
+                        object.castShadow = true
+                        object.receiveShadow = true
+                    }
+                });
         
-                model.position.set(0, 0, -10);
-                model.rotation.y = THREE.MathUtils.degToRad(-90);
+                modelScene.position.set(0, 0, -10);
+                modelScene.rotation.y = THREE.MathUtils.degToRad(-89.7);
         
-                scene.add(model);
+                scene.add(modelScene);
+                
             });
 
         })
@@ -309,53 +376,132 @@ function onWindowResize() {
 
 }
 
-window.addEventListener( 'resize', onWindowResize );
+window.addEventListener( 'resize', onWindowResize )
+
+let targetColor = new THREE.Color('#000000')
+let currentColor = new THREE.Color('#000000')
+
+// Defina a velocidade da transição (quanto menor, mais lenta será a transição)
+const transitionSpeed = 0.01; 
+
+function updateLightColors() {
+
+    if (currentColor != targetColor) {
+
+        currentColor.lerp(targetColor, transitionSpeed);
+
+        scene.traverse(function (object) {
+            if (object.isLight && object.name != 'Area_Orientation' ) {
+                if (object.name == 'Point002_Orientation' || object.name == 'Point003_Orientation' || object.name == 'Point004_Orientation' || object.name == 'Point005_Orientation' || object.name == 'Point006_Orientation') {
+                    object.intensity = 500
+                    
+                    if (!initial && (object.name == 'Point004_Orientation' || object.name == 'Point005_Orientation' || object.name == 'Point006_Orientation')){
+                        object.intensity = 50
+                        renderer.toneMappingExposure = 0.029;
+                    }
+                }else {
+                    object.color.set(currentColor)
+                }
+            }
+        });
+
+        scene.fog = new THREE.Fog(currentColor, 0, 100);
+
+    } else {
+        console.log("nao")
+    }
+}
 
 function render() {
-    requestAnimationFrame(render);
-    const delta = clock.getDelta(); // Para atualizações baseadas no tempo
-    renderer.render( scene, currentCamera );
-
+    requestAnimationFrame(render)
+    const delta = clock.getDelta()
+    stars.position.copy(currentCamera.position)
+    updateLightColors();
+    renderer.render( scene, currentCamera )
 }
 
-// Função para mover e girar a div com o mouse
-function moveScreenWithMouse(event) {
-    // Acompanhar a posição do mouse
-    const mouseX = (event.clientX / window.innerWidth) * 2 - 1; // Normaliza para o intervalo [-1, 1]
-    const mouseY = -(event.clientY / window.innerHeight) * 2 + 1; // Normaliza para o intervalo [-1, 1]
-
-    // Definir o fator de movimento
-    const movementFactor = 10; // Fator para controlar o movimento da tela
-    const movementFactorbuttons = 30; // Fator para controlar o movimento da tela
-
-    // Criar o movimento e rotação
-    const translateX = -mouseX * movementFactorbuttons;
-    const translateY = mouseY * movementFactorbuttons;
-    const rotateX = mouseY * movementFactor;  // Controla a rotação no eixo X
-    const rotateY = -mouseX * movementFactor;  // Controla a rotação no eixo Y
-    const rotateY2 = mouseY * movementFactorbuttons;  // Controla a rotação no eixo Y
-
-    // Atualiza o estilo da div
-    screenDiv.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    // Atualizando a posição dos botões
-    buttonsContainer.style.transform = `translate(-50%, -50%) translate3d(${translateX}px, ${translateY}px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+function shockWaveAnimation() {
+    const shockwave = document.createElement('div')
+    shockwave.classList.add('shockwave')
+    document.body.appendChild(shockwave)
+    shockwave.addEventListener('animationend', () => {
+        shockwave.remove()
+    });
 }
 
-// Adiciona o evento do mouse para mover a div
-window.addEventListener('mousemove', moveScreenWithMouse);
-dropy.addEventListener('click', () => {
+myWork.addEventListener('mouseenter', () => {
+    if (initial) {
+        initial = false
+        impact.play()
+        addParallaxEffect()
+    } else {
+        if (!select.paused) {
+            select.pause()
+            select.currentTime = 0
+        }
+        select.play();
+    }
+    shockWaveAnimation()
     about.style.display = 'none'
     iframeContainer.style.display = 'block'
+    screenDiv.classList.remove('screen-theme-default')
+    screenDiv.classList.remove('screen-theme1')
+    screenDiv.classList.add('screen-theme2')
+    targetColor = new THREE.Color('#FF9CDF')
 })
 
-goTo.addEventListener('click', function () {
-    const iframeUrl = iframe.src; // Obtém a URL que está sendo exibida no iframe
-    window.location.href = iframeUrl; // Redireciona para essa URL no site principal
-});
+myWork.addEventListener('click', () => {
+    const iframeUrl = iframe.src
+    window.location.href = iframeUrl
+})
 
-// Chamar a função de efeito parallax
+buttonAbout.addEventListener('mouseenter', () => {
+    if (initial) {
+        initial = false
+        impact.play()
+        addParallaxEffect()
+    } else {
+        if (!select.paused) {
+            select.pause()
+            select.currentTime = 0
+        }
+        select.play();
+    }
+    shockWaveAnimation()
+    iframeContainer.style.display = 'none'
+    about.style.display = 'block'
+    screenDiv.classList.remove('screen-theme-default')
+    screenDiv.classList.remove('screen-theme2')
+    screenDiv.classList.add('screen-theme1') 
+    targetColor = new THREE.Color('#824dec')
+})
+
+iframeContainer.addEventListener('click', function () {
+    const iframeUrl = iframe.src
+    window.location.href = iframeUrl
+})
+
+sound.addEventListener('click', function () {
+    sound.classList.add('active') 
+})
+
 init();
 render();
-//addCube()
 importSpecificModel('model/indexScene.glb')
-addParallaxEffect();
+updateSmoothPositions();
+
+function teste() {
+    if (modelScene && modelScene.visible) {
+        console.log('O modelo já está visível!')
+        clearInterval(intervalId)
+        splashScreen.classList.add('fade-out');
+        splashScreen.addEventListener('transitionend', () => {
+        splashScreen.style.display = 'none';
+        });
+        document.body.addEventListener('mouseenter', (event) => {
+
+        })  
+    }
+}
+
+const intervalId = setInterval(teste, 200);
