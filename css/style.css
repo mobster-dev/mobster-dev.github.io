@@ -79,7 +79,7 @@ body {
     color: rgb(255, 255, 255);
     font-size: 14px;
     font-weight: bold;
-    cursor: pointer;
+    cursor: none !important;
     transition: transform 0.2s ease-in-out, width 0.2s ease-in-out, height 0.2s ease-in-out;
     border: 1px solid #959191;
 }

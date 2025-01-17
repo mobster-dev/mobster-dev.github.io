@@ -14,7 +14,7 @@ const screenDiv = document.getElementById('screen');
 const buttonsContainer = document.getElementById('buttons-container');
 const myWork = document.getElementById('my-work');
 const about = document.getElementById('about');
-const linkedin = document.getElementById('linkedin');
+const contact = document.getElementById('Contact');
 const iframeContainer = document.getElementById('iframe-container');
 const iframe = document.getElementById('iframe');
 const buttonAbout = document.getElementById('button-about');
@@ -22,10 +22,10 @@ const splashScreen = document.getElementById('splash-screen')
 
 const sound = document.getElementById('sound')
 
+const backgroundSound = document.getElementById('background-sound')
 const select = document.getElementById('select')
-const impact = document.getElementById('impact')
+backgroundSound.volume = 0.3
 select.volume = 0.2
-impact.volume = 0.2
 
 
 let sky_config_gui;
@@ -429,11 +429,53 @@ function shockWaveAnimation() {
     });
 }
 
+function initEffects(){
+    initial = false
+    addParallaxEffect()
+    sound.classList.add('active') 
+    backgroundSound.play()
+}
+
+function handleMouseMove(event, button) {
+    if (initial) {
+        const rect = button.getBoundingClientRect();
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+    
+        const offsetX = mouseX - rect.left;
+        const offsetY = mouseY - rect.top;
+    
+        const angle = Math.atan2(offsetY - rect.height / 2, offsetX - rect.width / 2) * (180 / Math.PI) + 90;
+    
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distance = Math.sqrt(
+            Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2)
+        );
+    
+        const maxDistance = 300;
+        const intensity = Math.max(0, 1 - distance / maxDistance);
+        const boxShadowIntensity = Math.min(0.7, intensity);
+    
+        button.style.boxShadow = `0 0 ${boxShadowIntensity * 10}px ${boxShadowIntensity * 2}px rgba(255, 255, 255, ${intensity})`;
+        button.style.background = `linear-gradient(${angle}deg, rgba(0, 0, 0, 0), rgba(255, 255, 255, ${intensity - 0.5}))`;
+    } else {
+        document.removeEventListener('mousemove', handleMouseMove);
+    }
+}
+
+function initMouseEffect(button) {
+    document.addEventListener("mousemove", (event) => handleMouseMove(event, button));
+}
+
+initMouseEffect(buttonAbout)
+initMouseEffect(myWork)
+initMouseEffect(contact)
+
+
 myWork.addEventListener('mouseenter', () => {
     if (initial) {
-        initial = false
-        impact.play()
-        addParallaxEffect()
+        initEffects()
     } else {
         if (!select.paused) {
             select.pause()
@@ -457,9 +499,7 @@ myWork.addEventListener('click', () => {
 
 buttonAbout.addEventListener('mouseenter', () => {
     if (initial) {
-        initial = false
-        impact.play()
-        addParallaxEffect()
+        initEffects()
     } else {
         if (!select.paused) {
             select.pause()
@@ -468,6 +508,8 @@ buttonAbout.addEventListener('mouseenter', () => {
         select.play();
     }
     shockWaveAnimation()
+    buttonAbout.style.boxShadow = ""
+    buttonAbout.style.background = ""
     iframeContainer.style.display = 'none'
     about.style.display = 'block'
     screenDiv.classList.remove('screen-theme-default')
@@ -482,26 +524,32 @@ iframeContainer.addEventListener('click', function () {
 })
 
 sound.addEventListener('click', function () {
-    sound.classList.add('active') 
+    if (sound.classList.contains('active')) {
+        backgroundSound.pause()
+        backgroundSound.currentTime = 0
+    } else {
+        backgroundSound.play()
+    }
+    sound.classList.toggle('active') 
 })
 
-init();
-render();
-importSpecificModel('model/indexScene.glb')
-updateSmoothPositions();
 
-function teste() {
+
+init()
+render()
+importSpecificModel('model/indexScene.glb')
+updateSmoothPositions()
+
+
+function splashInit() {
     if (modelScene && modelScene.visible) {
         console.log('O modelo já está visível!')
         clearInterval(intervalId)
         splashScreen.classList.add('fade-out');
         splashScreen.addEventListener('transitionend', () => {
-        splashScreen.style.display = 'none';
-        });
-        document.body.addEventListener('mouseenter', (event) => {
-
-        })  
+            splashScreen.style.display = 'none'
+        })
     }
 }
 
-const intervalId = setInterval(teste, 200);
+const intervalId = setInterval(splashInit, 200)
