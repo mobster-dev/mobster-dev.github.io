@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>About Me</title>
+    <style>
+        body {
+            background: linear-gradient(90deg, #343434 5%, #0d0d0d 50%, #0d0d0d 50%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .backgoundSmoke{
+            position: absolute; /* Para colocar em qualquer lugar */
+            width: 50%;
+            height: auto;
+            z-index: -1; /* Coloca a imagem atrás do conteúdo */
+            opacity: 0.5;
+        }
+
+        .container {
+            display: flex;
+            background: linear-gradient(90deg, #8c8c8c00 5%, #0000003d 40%, #000000 60%);
+            margin: 30px;
+            box-shadow: 0 0 50px 5px rgb(0, 0, 0);
+            border-radius: 5px;
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .texto-container {
+            width: 60%;
+            text-align: center;
+            color: white;
+            margin: 20px;
+            padding-inline: 10px;
+            direction: rtl;
+            overflow-y: scroll;
+            
+        }
+
+        .texto-container > * {
+            direction: ltr;
+            text-align: center;
+        }
+
+        .texto-container::-webkit-scrollbar {
+            width: 4px;
+            border-radius: 3px;
+        }
+
+        .texto-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .texto-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .texto-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .texto-container::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        .texto-container::-webkit-scrollbar-track-piece:end {
+            margin-bottom: 300px; 
+        }
+
+        .texto-container::-webkit-scrollbar-track-piece:start {
+            margin-top: 300px;
+        }
+
+        .imagem-container {
+            padding-top: 2%;
+            background-color: black;
+        }
+
+        .imagem-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-size: 3vw;
+            color: orange;
+        }
+
+        h2 {
+            font-size: 2.5vw;
+            color: rgb(236, 236, 236);
+        }
+
+        h3 {
+            font-size: 1.2vw;
+            color: rgb(156, 156, 156);
+        }
+
+        @media (max-width: 1080px) {
+            h3 {
+                font-size: 2vw;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .texto-container::-webkit-scrollbar-track-piece:end {
+                margin-bottom: 50px; 
+            }
+
+            .texto-container::-webkit-scrollbar-track-piece:start {
+                margin-top: 50px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <img src="/backgoundSmoke.png" class="backgoundSmoke">
+
+    <div class="container">
+        
+        <div class="texto-container">
+            <h1>teste escrevendo coisas</h1>
+            <h2>teste escrevendo coisas</h2>
+            <h3>
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
+            </h3>
+        </div>
+
+        <div class="imagem-container">
+            <img src="/eu.png" alt="Imagem de exemplo">
+        </div>
+
+    </div>
+</body>
+</html>
