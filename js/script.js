@@ -24,8 +24,8 @@ const sound = document.getElementById('sound')
 
 const backgroundSound = document.getElementById('background-sound')
 const select = document.getElementById('select')
-backgroundSound.volume = 0.3
-select.volume = 0.2
+backgroundSound.volume = 0.1
+select.volume = 0.1
 
 
 let sky_config_gui;
@@ -381,7 +381,6 @@ window.addEventListener( 'resize', onWindowResize )
 let targetColor = new THREE.Color('#000000')
 let currentColor = new THREE.Color('#000000')
 
-// Defina a velocidade da transição (quanto menor, mais lenta será a transição)
 const transitionSpeed = 0.01; 
 
 function updateLightColors() {
@@ -431,6 +430,12 @@ function shockWaveAnimation() {
 
 function initEffects(){
     initial = false
+    buttonAbout.style.filter = ""
+    buttonAbout.style.background = ""
+    myWork.style.filter = ""
+    myWork.style.background = ""
+    contact.style.filter = ""
+    contact.style.background = ""
     addParallaxEffect()
     sound.classList.add('active') 
     backgroundSound.play()
@@ -453,12 +458,18 @@ function handleMouseMove(event, button) {
             Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2)
         );
     
-        const maxDistance = 300;
+        const maxDistance = 500;
         const intensity = Math.max(0, 1 - distance / maxDistance);
-        const boxShadowIntensity = Math.min(0.7, intensity);
-    
-        button.style.boxShadow = `0 0 ${boxShadowIntensity * 10}px ${boxShadowIntensity * 2}px rgba(255, 255, 255, ${intensity})`;
-        button.style.background = `linear-gradient(${angle}deg, rgba(0, 0, 0, 0), rgba(255, 255, 255, ${intensity - 0.5}))`;
+        const boxShadowIntensity = Math.min(0.15, intensity);
+        
+        const shadowOffsetX = (offsetX - rect.width / 2) * 0.2 * intensity;
+        const shadowOffsetY = (offsetY - rect.height / 2) * 0.2 * intensity;
+        
+        const maxShadowSize = Math.min(rect.width, rect.height);
+        button.style.filter = `drop-shadow(${shadowOffsetX}px ${shadowOffsetY}px ${Math.min(boxShadowIntensity * 100, maxShadowSize)}px rgba(255, 255, 255, ${intensity}))`;
+        button.style.background = `linear-gradient(${angle}deg, rgba(0, 0, 0, 0) 40%, rgba(255, 255, 255, ${boxShadowIntensity -0.1}) 80%, rgba(255, 255, 255, ${intensity-0.1}) 120%)`;
+
+        button.style.backgroundClip = "padding-box";
     } else {
         document.removeEventListener('mousemove', handleMouseMove);
     }
@@ -485,6 +496,7 @@ myWork.addEventListener('mouseenter', () => {
     }
     shockWaveAnimation()
     about.style.display = 'none'
+    iframe.src = 'templates/droply.html'
     iframeContainer.style.display = 'block'
     screenDiv.classList.remove('screen-theme-default')
     screenDiv.classList.remove('screen-theme1')
@@ -508,20 +520,16 @@ buttonAbout.addEventListener('mouseenter', () => {
         select.play();
     }
     shockWaveAnimation()
-    buttonAbout.style.boxShadow = ""
-    buttonAbout.style.background = ""
-    iframeContainer.style.display = 'none'
-    about.style.display = 'block'
+    iframe.src = 'templates/about.html'
+    iframeContainer.style.display = 'block'
+    about.style.display = 'none'
     screenDiv.classList.remove('screen-theme-default')
     screenDiv.classList.remove('screen-theme2')
     screenDiv.classList.add('screen-theme1') 
     targetColor = new THREE.Color('#824dec')
 })
 
-iframeContainer.addEventListener('click', function () {
-    const iframeUrl = iframe.src
-    window.location.href = iframeUrl
-})
+
 
 sound.addEventListener('click', function () {
     if (sound.classList.contains('active')) {
