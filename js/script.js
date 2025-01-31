@@ -483,7 +483,6 @@ initMouseEffect(buttonAbout)
 initMouseEffect(myWork)
 initMouseEffect(contact)
 
-
 myWork.addEventListener('mouseenter', () => {
     if (initial) {
         initEffects()
@@ -496,17 +495,13 @@ myWork.addEventListener('mouseenter', () => {
     }
     shockWaveAnimation()
     about.style.display = 'none'
-    iframe.src = 'templates/droply.html'
+    iframe.src = 'templates/myWork.html'
     iframeContainer.style.display = 'block'
     screenDiv.classList.remove('screen-theme-default')
     screenDiv.classList.remove('screen-theme1')
+    screenDiv.classList.remove('screen-theme3')
     screenDiv.classList.add('screen-theme2')
     targetColor = new THREE.Color('#FF9CDF')
-})
-
-myWork.addEventListener('click', () => {
-    const iframeUrl = iframe.src
-    window.location.href = iframeUrl
 })
 
 buttonAbout.addEventListener('mouseenter', () => {
@@ -525,11 +520,31 @@ buttonAbout.addEventListener('mouseenter', () => {
     about.style.display = 'none'
     screenDiv.classList.remove('screen-theme-default')
     screenDiv.classList.remove('screen-theme2')
+    screenDiv.classList.remove('screen-theme3')
     screenDiv.classList.add('screen-theme1') 
     targetColor = new THREE.Color('#824dec')
 })
 
-
+contact.addEventListener('mouseenter', () => {
+    if (initial) {
+        initEffects()
+    } else {
+        if (!select.paused) {
+            select.pause()
+            select.currentTime = 0
+        }
+        select.play();
+    }
+    shockWaveAnimation()
+    iframe.src = 'templates/contact.html'
+    iframeContainer.style.display = 'block'
+    about.style.display = 'none'
+    screenDiv.classList.remove('screen-theme-default')
+    screenDiv.classList.remove('screen-theme1')
+    screenDiv.classList.remove('screen-theme2')
+    screenDiv.classList.add('screen-theme3') 
+    targetColor = new THREE.Color('#824dec')
+})
 
 sound.addEventListener('click', function () {
     if (sound.classList.contains('active')) {
@@ -541,13 +556,17 @@ sound.addEventListener('click', function () {
     sound.classList.toggle('active') 
 })
 
-
+window.addEventListener("message", function (event) {
+    if (event.data === "iframeClicked") {
+        const iframeUrl = iframe.src
+        window.location.href = iframeUrl
+    }
+})
 
 init()
 render()
 importSpecificModel('model/indexScene.glb')
 updateSmoothPositions()
-
 
 function splashInit() {
     if (modelScene && modelScene.visible) {
