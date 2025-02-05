@@ -14,7 +14,7 @@
 </head>
 <body>
     <video class="video-chroma" autoplay loop muted playsinline>
-        <source src="/smoke.mp4" type="video/mp4">
+        <source src="/media/smoke.mp4" type="video/mp4">
     </video>
 
     <div class="container">
@@ -22,7 +22,7 @@
             <i class="fas fa-arrow-left arrow" title="Voltar"></i>
         </a>
         <div class="texto-container">
-            <h1>Contact and Social</h1>
+            <h1 data-lang="title-contact"></h1>
             <div class="contact-container">
                 <div class="contact">
                     <i class="fas fa-envelope" style="color: #0077B5;"></i>
@@ -39,5 +39,31 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const translations = {
+            "pt": {
+                "title-contact": "Contato e Redes Sociais"
+            },
+            "en": {
+                "title-contact": "Contact and Social Media"
+            }
+        }
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang')
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key]
+                }
+            })
+            document.documentElement.lang = lang
+        }
+
+        const userLang = navigator.language || navigator.userLanguage
+        const lang = userLang.startsWith('pt') ? 'pt' : 'en'
+        setLanguage(lang)
+
+    </script>
 </body>
 </html>
