@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -22,25 +22,40 @@
 </head>
 <body>
     <div id="splash-screen"></div>
-    <div id="viewer"></div>
+    <div id="viewer"></div> 
     <div id="screen" class="screen-theme-default">
-        <div id="about">Sou Ryan Santos, Desenvolvedor full stack mas focado no back-end</div>
-        <div id="iframe-container"><iframe id="iframe" width="100%" frameborder="0"></iframe></div>
-    </div> 
-    <div id="buttons-container">
-        <button class="button" id="button-about">About Me</button>
-        <button class="button" id="my-work">My Work</button>
-        <button class="button" id="Contact">Contact</button>
+
+        <div id="neon-screen" class="neon-screen neon-default"></div>
+
+        <div id="container-noSignal">
+            <img id="noSignal" src="noSignal.gif" />
+            <h1>No Signal</h1>
+        </div>
+
+        <div id="texto-container" class="texto-container">
+            <p data-lang="Welcome">
+                Aviso de audio <br>
+                Este site contem audio e efeitos sonoros.
+            </p>        
+            <i id="start" class="far fa-play-circle play"> Ok</i>
+        </div>
+
+        <iframe id="iframe" frameborder="0"></iframe>
     </div>
+
+    <button class="button" id="button-about" data-lang="button-about">Sobre Mim</button>
+    <button class="button" id="my-work" data-lang="button-my-work">Meu Trabalho</button>
+    <button class="button" id="contact" data-lang="button-contact">Contato</button>
+
     <div class="menus-container">
 
         <div id="sound" class="sound" title="Sound">
             <i class="fas fa-music sound-icon"></i>
         </div>
-        <a href="templates/about.html" class="menus">About Me</a>
-        <a href="templates/MyWork.html" class="menus">My Work</a>
+
+        <a href="templates/about.html" class="menus" data-lang="button-about">Sobre Mim</a>
+        <a href="templates/MyWork.html" class="menus" data-lang="button-my-work">Meu Trabalho</a>
         <a href="https://www.linkedin.com/in/ryan-santos-111070146/" class="menus">LinkedIn</a>
-        
         <a href="https://github.com/mobster-dev" class="menus">GitHub</a>
     </div>
     
@@ -51,5 +66,37 @@
     <audio id="select">
         <source src="audios/impactSelect.mp3" type="audio/mp3">
     </audio>
+
+    <script>
+        const translations = {
+            "pt": {
+                "Welcome": "Aviso de áudio <br> Este site contem áudio e efeitos sonoros.",
+                "button-about": "Sobre Mim",
+                "button-my-work": "Meu Trabalho",
+                "button-contact": "Contato"
+            },
+            "en": {
+                "Welcome": "Audio warning <br> This site contains audio and sound effects.",
+                "button-about": "About Me",
+                "button-my-work": "My Work",
+                "button-contact": "Contact"
+            }
+        }
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang')
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key]
+                }
+            })
+            document.documentElement.lang = lang
+        }
+
+        const userLang = navigator.language || navigator.userLanguage
+        const lang = userLang.startsWith('pt') ? 'pt' : 'en'
+        setLanguage(lang)
+
+    </script>
 </body>
 </html>

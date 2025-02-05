@@ -19,74 +19,95 @@
             <i class="fas fa-arrow-left arrow" title="Voltar"></i>
         </a>
         <div class="menus-container">
-            <span class="menus">
+            <span data-lang="button-my-work" class="menus">
                 My Work
             </span>
-            <span class="menus">
+            <span class="menus" title="Available soon">
                 Droply
             </span>
         </div>
         <div class="texto-container">
-            <h1>teste escrevendo coisas</h1>
-            <h2>teste escrevendo coisas</h2>
-            <h3>
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-                teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas teste escrevendo coisas 
-            </h3>
+            <h1 data-lang="title-my-work"></h1>
+            <h2 data-lang="subtitle-my-work"></h2>
+            <h3 data-lang="description-my-work"></h3>
         </div>
 
         <div class="imagem-container">
-            
-            <h1>teste escrevendo coisas</h1>
-            <h2>teste escrevendo coisas</h2>
+            <img src="/eu.png">
         </div>
 
+        <script>
+            const translations = {
+                "pt": {
+                    "title-my-work": "Meu Trabalho",
+                    "subtitle-my-work": "Aqui você encontrará exemplos do que faço, minhas habilidades e minha experiência profissional.",
+                    "description-my-work": `Atualmente, trabalho com <b>desenvolvimento e manutenção de sistemas web e APIs</b>, utilizando tecnologias como <b>Python, Flask, FastAPI e .NET Core C#</b> na empresa <b>Fast2Mine</b>. <br>  
+
+                    Tenho experiência com <b>Docker, Git, SQL Server e PostgreSQL</b>, incluindo <b>procedures, funções e visualizações</b>. <br>  
+
+                    Para <b>gerenciamento de banco de dados</b>, utilizo o <b>Microsoft SQL Server Management Studio</b>, realizando <i>administração básica de servidores, bancos de dados, tabelas, procedures, funções e visualizações</i>. <br>  
+
+                    Um dos projetos que desenvolvi foi um <b>atualizador automático</b> para um sistema web utilizado por clientes, com um <b>portal próprio de agendamento de atualizações</b>.  <br>
+                    - O atualizador foi feito em <b>Python</b>, e o agendador web foi desenvolvido com <b>Flask</b>.  <br>
+                    - Foram feitas <b>integrações com APIs externas</b>, como a API do <b>Jira</b>, além de <b>armazenamento de dados em SQLite</b>. <br>  
+
+                    Além disso, criei diversos <b>sistemas web utilizando Python</b> tanto no backend quanto no frontend, explorando tecnologias como <b>Streamlit, HTML, CSS</b> <i>(incluindo Bootstrap)</i> e <b>JavaScript</b>, além de bibliotecas como <b>Pandas, NumPy</b> e outras. <br>  
+
+                    Também trabalhei com <b>.NET Core C#</b>, desenvolvendo uma <b>API para processamento de RDLC</b> usando <b>ReportViewerCore</b>, permitindo a <b>geração eficiente de relatórios</b>.  
+                    Essa solução foi projetada para <b>se integrar a outras tecnologias</b>, como <b>Python</b>, viabilizando a visualização dos relatórios dentro de um sistema web. <br>  
+
+                    Minha experiência inclui o <b>desenvolvimento de APIs com Flask</b>, bem como a <b>criação de uma API do zero com FastAPI</b>, seguindo o <b>padrão RESTful</b> e sendo um <b>projeto estratégico para a empresa</b>. <br>  
+
+                    Também atuei na <b>manutenção de sistemas e APIs web</b>, incluindo suporte e melhorias em uma API desenvolvida utilizando <b>Falcon</b>. <br>  
+
+                    Para <b>gerenciamento de banco de dados</b>, utilizo o <b>Microsoft SQL Server Management Studio</b>, realizando <i>administração básica de servidores, bancos de dados, tabelas, procedures, funções e visualizações</i>. <br><br>  
+
+                    Alguns <b>projetos pessoais</b> foram realizados para estudar e praticar, como:  <br>
+                    - <b>Aplicativos mobile com Java</b>, consumindo APIs externas como <b>Google Maps, Firebase e Firestore</b>, com comunicação em tempo real.  <br>
+                    - <b>Aplicações web com Node.js e Express</b>, incluindo <b>ambientes 3D</b> com cenas e objetos <b>sincronizados em tempo real</b> via <b>Socket.io</b>. <br>  
+
+                    Criei meu primeiro <b>componente web</b>, chamado <b>Droply</b>, utilizando <b>JavaScript vanilla</b>. O projeto está no <b>GitHub</b> e foi publicado via <b>CDN</b>. <br>  
+
+                    O <b>Droply</b> é um <b>componente de dropdown</b> em <b>JavaScript puro</b>, desenvolvido para ser <b>leve, flexível e fácil de integrar</b> em qualquer projeto web.  
+                    Ele permite a criação de <b>dropdowns usados como filtros hierárquicos</b> e altamente personalizáveis, <b>sem a necessidade de bibliotecas externas</b>.`
+                },
+                "en": {
+                    "title-my-work": "My Work",
+                    "subtitle-my-work": "Here you will find examples of what I do, my skills, and my professional experience.",
+                    "description-my-work": `Currently, I work with web development and API maintenance, using technologies such as Python, Flask, FastAPI, and .NET Core C# at Fast2Mine. <br>
+                    I have experience with Docker, Git, SQL Server, and PostgreSQL, including procedures, functions, and views. <br>
+                    For database management, I use Microsoft SQL Server Management Studio, performing basic server, database, table, procedure, function, and view administration. <br>
+                    One of the projects I developed was an automatic updater for a web system used by clients, with its own update scheduling portal. The updater was made in Python, and the web scheduler was developed with Flask, integrations were made with external APIs such as the Jira API, sqlite database. <br>
+                    In addition, I created several web systems using Python both on the backend and frontend, exploring technologies such as Streamlit, HTML, CSS (including Bootstrap), and JavaScript, as well as libraries such as Pandas, NumPy, among others. <br>
+                    I also worked with .NET Core C#, developing an API for RDLC processing using ReportViewerCore, allowing more efficient report generation. This solution was designed to integrate with other technologies, such as Python, enabling the visualization of reports within a web system. <br>
+                    My experience includes the development of APIs with Flask, as well as the creation of an API from scratch with FastAPI, following the RESTful standard and being a strategic project for the company. <br>
+                    I also performed maintenance on systems and APIs, including support and improvements to APIs developed with Falcon. <br>
+                    For database management, I use Microsoft SQL Server Management Studio, performing basic server, database, table, procedure, function, and view administration. <br>
+                    <br>
+                    Some personal projects were carried out to study and practice, such as mobile applications with Java, consuming external APIs such as google maps, firebase, and firestore with real-time communication, web applications with node.js and express as 3d environments with synchronized scenes and objects in real-time with socket.io. <br>
+
+                    I created my first web component (Droply) with JavaScript vanilla on github and published via CDN. <br>
+                    
+                    The Droply is a pure JavaScript dropdown component, developed to be light, flexible, and easy to integrate into any web project. <br>
+                    It allows the creation of dropdowns that can be used as hierarchical filters and customisable, without the need for external libraries.`
+                }
+            }
+    
+            function setLanguage(lang) {
+                document.querySelectorAll('[data-lang]').forEach(element => {
+                    const key = element.getAttribute('data-lang')
+                    if (translations[lang] && translations[lang][key]) {
+                        element.innerHTML = translations[lang][key]
+                    }
+                })
+                document.documentElement.lang = lang
+            }
+    
+            const userLang = navigator.language || navigator.userLanguage
+            const lang = userLang.startsWith('pt') ? 'pt' : 'en'
+            setLanguage(lang)
+    
+        </script>
     </div>
 </body>
 </html>
