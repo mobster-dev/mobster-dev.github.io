@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Contact</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/contact.css">
+    <script>
+        document.addEventListener("click", function () {
+            window.parent.postMessage("iframeClicked", "*")
+        })
+    </script>
+</head>
+<body>
+    <video class="video-chroma" autoplay loop muted playsinline>
+        <source src="/media/smoke.mp4" type="video/mp4">
+    </video>
+
+    <div class="container">
+        <a href="/index.html">
+            <i class="fas fa-arrow-left arrow" title="Voltar"></i>
+        </a>
+        <div class="texto-container">
+            <h1 data-lang="title-contact"></h1>
+            <div class="contact-container">
+                <div class="contact">
+                    <i class="fas fa-envelope" style="color: #0077B5;"></i>
+                    <a href="mailto:ryan.santos103@outlook.com" class="links">Ryan.santos103@outlook.com</a>
+                </div>
+                <div class="contact">
+                    <i class="fab fa-linkedin" style="color: #0077B5;"></i>
+                    <a href="https://www.linkedin.com/in/ryan-santos-111070146/" class="links">Ryan Santos on LinkedIn</a>
+                </div>
+                <div class="contact">
+                    <i class="fab fa-github"></i>
+                    <a href="https://github.com/mobster-dev" class="links">mobster-dev on GitHub</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            "pt": {
+                "title-contact": "Contato e Redes Sociais"
+            },
+            "en": {
+                "title-contact": "Contact and Social Media"
+            }
+        }
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang')
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key]
+                }
+            })
+            document.documentElement.lang = lang
+        }
+
+        const userLang = navigator.language || navigator.userLanguage
+        const lang = userLang.startsWith('pt') ? 'pt' : 'en'
+        setLanguage(lang)
+
+    </script>
+</body>
+</html>

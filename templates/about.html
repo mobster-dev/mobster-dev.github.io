@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>About Me</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/about.css">
+    <script>
+        document.addEventListener("click", function () {
+            window.parent.postMessage("iframeClicked", "*")
+        })
+    </script>
+</head>
+<body>
+    <video class="video-chroma" autoplay loop muted playsinline>
+        <source src="/media/smoke.mp4" type="video/mp4">
+    </video>
+
+    <div class="container">
+        <a href="/index.html">
+            <i class="fas fa-arrow-left arrow" title="Back"></i>
+        </a>
+        <div class="texto-container">
+            <h1 data-lang="title-about"></h1>
+            <h2 data-lang="subtitle-about"></h2>
+            <h3 data-lang="description-about"></h3>
+        </div>
+
+        <div class="imagem-container">
+            <img src="/media/eu.png">
+        </div>
+
+    </div>
+
+    <script>
+        const translations = {
+            "pt": {
+                "title-about": "Olá! Meu nome é Ryan Santos",
+                "subtitle-about": "Desenvolvedor Pleno",
+                "description-about": `Este site é um pequeno espaço para falar sobre <b>mim, meu trabalho</b> e compartilhar alguns dos <b>projetos</b> que venho desenvolvendo. No design, ele se compõe de coisas que gosto, como <b>skate, 3D, música</b> e, claro, <b>programação</b>. <br>  
+                Tenho <b>29 anos</b>, sou <b>brasileiro</b> do estado de <b>Minas Gerais</b>, <i>casado</i>, formado em <b>Análise e Desenvolvimento de Sistemas</b> e estou cursando <i>pós-graduação em Engenharia de Software.</i> <br>  
+                <br>
+                Atualmente, atuo como <b>Desenvolvedor Pleno</b> na empresa <b>Fast2Mine</b> há <b>três anos e meio</b>. <br>  
+                Meu primeiro contato com programação foi há <b>quase 17 anos</b>, quando comecei <b>criando jogos no Blender</b> usando programação visual com <b>Logic Bricks</b>.  
+                Isso despertou meu interesse por <b>lógica de programação</b>, levando-me a fazer <i>cursos online</i> e aprender <b>Python</b> como minha <i>primeira linguagem de programação</i>. <br>  
+                Seguindo essa paixão, fiz cursos de <b>hacker ético na Solyd</b> <i>(que acabei por não seguir na área)</i> e, mais tarde, cursei <b>Análise e Desenvolvimento de Sistemas</b>. <br>  
+                <br>
+                Minha trajetória profissional começou como <b>suporte técnico N2</b>, onde, além de atuar resolvendo problemas, <b>automatizava processos utilizando Python e Shell Script</b> para otimizar tarefas.  
+                Depois, entrei para a <b>Fast2Mine</b> como <b>Analista de Sistemas Jr</b>, onde <b>desenvolvia relatórios e painéis (SIGs)</b> utilizando:  
+                - <b>HTML, CSS</b> <i>(incluindo Bootstrap)</i>  
+                - <b>JavaScript</b> <i>(incluindo jQuery)</i>  
+                - <b>VB.NET</b> <i>(sob o .NET Framework)</i>  
+                - <b>Python</b> <i>(para automação de processos)</i>  
+                - <b>SQL Server</b> <i>(como banco de dados)</i>  
+                <br>
+                <br>
+                Posteriormente, com <b>dedicação</b> e assumindo <b>outros projetos importantes para a empresa</b>, evoluí para minha posição atual como <b>Desenvolvedor Pleno</b>  
+                (mais detalhes na aba <a href="/templates/myWork.html"><b>Meus Trabalhos</b></a>). <br>  
+                Ao longo do tempo, desenvolvi diversos <b>projetos pessoais</b>, como <b>aplicativos de desktop e um app mobile para Android</b> <i>(publicado na Play Store, atualmente indisponível)</i>, sem publicá-los em comunidades como o <b>GitHub</b>. <br>  
+                Estou sempre <b>buscando conhecimento</b> através de <i>cursos online</i>, além da <i>pós-graduação</i>. <br>  
+                Sinta-se à vontade para explorar e, se quiser <b>trocar ideias ou trabalhar comigo</b>, é um prazer  
+                <a href="/templates/contact.html"><b>conversar!</b></a> <br>  
+                <i>Acredito que a programação e a tecnologia podem transformar ainda mais o mundo, e estou comprometido em contribuir para essa mudança.</i>`  
+            },
+            "en": {
+                "title-about": "Hello! My name is Ryan Santos",
+                "subtitle-about": "Web Developer",
+                "description-about": `This website is a small space to talk about <b>myself, my work</b>, and share some of the <b>projects</b> I have been developing. In its design, it incorporates things I enjoy, such as <b>skateboarding, 3D, music</b>, and of course, <b>programming</b>. <br>  
+                I am <b>29 years old</b>, a <b>Brazilian</b> from the state of <b>Minas Gerais</b>, <i>married</i>, graduated in <b>Systems Analysis and Development</b>, and currently pursuing a <i>postgraduate degree in Software Engineering.</i> <br>  
+                <br>  
+                Currently, I work as a <b>Mid-Level Developer</b> at <b>Fast2Mine</b>, where I have been for <b>three and a half years</b>. <br>  
+                My first contact with programming was <b>almost 17 years ago</b>, when I started <b>creating games in Blender</b> using visual programming with <b>Logic Bricks</b>.  
+                This sparked my interest in <b>programming logic</b>, leading me to take <i>online courses</i> and learn <b>Python</b> as my <i>first programming language</i>. <br>  
+                Following this passion, I took courses in <b>ethical hacking at Solyd</b> <i>(which I ultimately did not pursue as a career)</i> and later studied <b>Systems Analysis and Development</b>. <br>  
+                <br>  
+                My professional journey began as an <b>N2 technical support specialist</b>, where, in addition to troubleshooting issues, I <b>automated processes using Python and Shell Script</b> to optimize tasks.  
+                Later, I joined <b>Fast2Mine</b> as a <b>Junior Systems Analyst</b>, where I <b>developed reports and dashboards (SIGs)</b> using:  
+                - <b>HTML, CSS</b> <i>(including Bootstrap)</i>  
+                - <b>JavaScript</b> <i>(including jQuery)</i>  
+                - <b>VB.NET</b> <i>(under the .NET Framework)</i>  
+                - <b>Python</b> <i>(for process automation)</i>  
+                - <b>SQL Server</b> <i>(as a database)</i>  
+                <br>  
+                <br>  
+                Subsequently, with <b>dedication</b> and by taking on <b>other important projects for the company</b>, I progressed to my current position as a <b>Mid-Level Developer</b>  
+                (more details in the <a href="/templates/myWork.html"><b>My Work</b></a> section). <br>  
+                Over time, I developed several <b>personal projects</b>, such as <b>desktop applications and a mobile app for Android</b> <i>(published on the Play Store, currently unavailable)</i>, without publishing them in communities like <b>GitHub</b>. <br>  
+                I am always <b>seeking knowledge</b> through <i>online courses</i>, in addition to my <i>postgraduate studies</i>. <br>  
+                Feel free to explore, and if you want to <b>exchange ideas or work with me</b>, it would be a pleasure  
+                <a href="/templates/contact.html"><b>to chat!</b></a> <br>  
+                <i>I believe that programming and technology can further transform the world, and I am committed to contributing to this change.</i>`  
+
+            }
+        }
+
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang')
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key]
+                }
+            })
+            document.documentElement.lang = lang
+        }
+
+        const userLang = navigator.language || navigator.userLanguage
+        const lang = userLang.startsWith('pt') ? 'pt' : 'en'
+        setLanguage(lang)
+
+    </script>
+</body>
+</html>
