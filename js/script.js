@@ -377,12 +377,12 @@ function setIframeDisplay(aboutVisible, myWorkVisible, contactVisible) {
 }
 
 function updateScreenTheme(theme) {
-    screenDiv.className = ''
+    screenDiv.classList.remove('screen-theme-default', 'screen-theme1', 'screen-theme2', 'screen-theme3')
     screenDiv.classList.add(`screen-theme${theme}`, `screen-theme${theme}-hover`);
 }
 
 function updateNeonTheme(theme) {
-    neonDiv.className = ''
+    neonDiv.classList.remove("neon-default", "neon-theme1", "neon-theme2", "neon-theme3")
     neonDiv.classList.add(`neon-theme${theme}`)
 }
 
