@@ -101,13 +101,15 @@ function initSky() {
 }
 
 function init() {
-    renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer = new THREE.WebGLRenderer({ antialias: false })
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(viewerDiv.clientWidth, viewerDiv.clientHeight)
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 0.5
     renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.VSMShadowMap
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.shadowMap.width = 1024;
+    renderer.shadowMap.height = 1024;
     viewerDiv.appendChild(renderer.domElement)
     
     cssRenderer.setSize(viewerDiv.clientWidth, viewerDiv.clientHeight)
