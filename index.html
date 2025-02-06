@@ -40,7 +40,9 @@
             <i id="start" class="far fa-play-circle play"> Ok</i>
         </div>
 
-        <iframe id="iframe" frameborder="0"></iframe>
+        <iframe id="iframe-about" class="iframe" src="templates/about.html" frameborder="0"></iframe>
+        <iframe id="iframe-myWork" class="iframe" src="templates/myWork.html" frameborder="0"></iframe>
+        <iframe id="iframe-contact" class="iframe" src="templates/contact.html" frameborder="0"></iframe>
     </div>
 
     <button class="button" id="button-about" data-lang="button-about">Sobre Mim</button>
@@ -59,11 +61,11 @@
         <a href="https://github.com/mobster-dev" class="menus">GitHub</a>
     </div>
     
-    <audio id="background-sound" loop>
+    <audio id="background-sound" preload="auto" loop>
         <source src="audios/backgrond.mp3" type="audio/mp3">
     </audio>
 
-    <audio id="select">
+    <audio id="select" preload="auto">
         <source src="audios/impactSelect.mp3" type="audio/mp3">
     </audio>
 

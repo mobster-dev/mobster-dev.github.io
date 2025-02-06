@@ -12,7 +12,9 @@ const myWork = document.getElementById('my-work')
 const contact = document.getElementById('contact')
 const screenDiv = document.getElementById("screen")
 const neonDiv = document.getElementById("neon-screen")
-const iframe = document.getElementById("iframe")
+const iframeAbout = document.getElementById("iframe-about")
+const iframeMyWork = document.getElementById("iframe-myWork")
+const iframeContact = document.getElementById("iframe-contact")
 const buttonAbout = document.getElementById('button-about')
 const splashScreen = document.getElementById('splash-screen')
 
@@ -172,9 +174,37 @@ function addParallaxEffect() {
         moveScreenWithMouse(event)
     })
 
-    iframe.addEventListener("mouseenter", () => {
-        iframe.contentWindow.document.addEventListener("mousemove", (event) => {
-            const iframeRect = iframe.getBoundingClientRect()
+    iframeAbout.addEventListener("mouseenter", () => {
+        iframeAbout.contentWindow.document.addEventListener("mousemove", (event) => {
+            const iframeRect = iframeAbout.getBoundingClientRect()
+            
+            const simulatedEvent = new MouseEvent("mousemove", {
+                bubbles: true,
+                clientX: event.clientX + iframeRect.left,
+                clientY: event.clientY + iframeRect.top 
+            });
+    
+            window.dispatchEvent(simulatedEvent);
+        })
+    })
+
+    iframeContact.addEventListener("mouseenter", () => {
+        iframeContact.contentWindow.document.addEventListener("mousemove", (event) => {
+            const iframeRect = iframeContact.getBoundingClientRect()
+            
+            const simulatedEvent = new MouseEvent("mousemove", {
+                bubbles: true,
+                clientX: event.clientX + iframeRect.left,
+                clientY: event.clientY + iframeRect.top 
+            });
+    
+            window.dispatchEvent(simulatedEvent);
+        })
+    })
+    
+    iframeMyWork.addEventListener("mouseenter", () => {
+        iframeMyWork.contentWindow.document.addEventListener("mousemove", (event) => {
+            const iframeRect = iframeMyWork.getBoundingClientRect()
             
             const simulatedEvent = new MouseEvent("mousemove", {
                 bubbles: true,
@@ -379,8 +409,9 @@ myWork.addEventListener('mouseenter', () => {
         select.play()
     }
     shockWaveAnimation()
-    iframe.src = 'templates/myWork.html'
-    iframe.style.display = 'block'
+    iframeAbout.style.display = 'none'
+    iframeMyWork.style.display = 'block'
+    iframeContact.style.display = 'none'
     screenDiv.classList.remove('screen-theme-default', 'screen-theme1', 'screen-theme2', 'screen-theme3')
     screenDiv.classList.add('screen-theme2', 'screen-theme2-hover')
     neonDiv.classList.remove("neon-default", "neon-theme1", "neon-theme2", "neon-theme3")
@@ -403,8 +434,9 @@ buttonAbout.addEventListener('mouseenter', () => {
         select.play()
     }
     shockWaveAnimation()
-    iframe.src = 'templates/about.html'
-    iframe.style.display = 'block'
+    iframeAbout.style.display = 'block'
+    iframeMyWork.style.display = 'none'
+    iframeContact.style.display = 'none'
     screenDiv.classList.remove('screen-theme-default', 'screen-theme1', 'screen-theme2', 'screen-theme3')
     screenDiv.classList.add('screen-theme1', 'screen-theme1-hover') 
     neonDiv.classList.remove("neon-default", "neon-theme1", "neon-theme2", "neon-theme3")
@@ -427,8 +459,9 @@ contact.addEventListener('mouseenter', () => {
         select.play()
     }
     shockWaveAnimation()
-    iframe.src = 'templates/contact.html'
-    iframe.style.display = 'block'
+    iframeAbout.style.display = 'none'
+    iframeMyWork.style.display = 'none'
+    iframeContact.style.display = 'block'
     screenDiv.classList.remove('screen-theme-default', 'screen-theme1', 'screen-theme2', 'screen-theme3')
     screenDiv.classList.add('screen-theme3', 'screen-theme3-hover') 
     neonDiv.classList.remove("neon-default", "neon-theme1", "neon-theme2", "neon-theme3")
@@ -452,7 +485,8 @@ sound.addEventListener('click', function () {
 
 window.addEventListener("message", function (event) {
     if (event.data === "iframeClicked") {
-        const iframeUrl = iframe.src
+        console.log(event, event.source.frameElement.src.replace(event.origin, '') )
+        const iframeUrl = event.source.frameElement.src.replace(event.origin, '')
         window.location.href = iframeUrl
     }
 })
