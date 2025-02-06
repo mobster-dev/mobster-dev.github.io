@@ -3,7 +3,7 @@ import { Sky } from 'three/addons/objects/Sky.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js'
 
-let cameraPersp, cameraOrtho, currentCamera
+let cameraPersp, currentCamera
 let scene, renderer
 let modelScene
 let initial = true
@@ -39,6 +39,14 @@ cssRenderer.domElement.style.top = "0"
 let cssObjectButtonAbout
 let cssObjectMyWork
 let cssObjectContact
+
+let currentCameraX = 0
+let currentCameraY = 0
+let targetCameraX = 0
+let targetCameraY = 0
+
+let targetColor = new THREE.Color('#000000')
+let currentColor = new THREE.Color('#000000')
 
 function initSky() {
 
@@ -76,7 +84,6 @@ function initSky() {
 
     renderer.toneMappingExposure = effectController.exposure
 
-    // Geometria de partículas (estrelas)
     const starGeometry = new THREE.BufferGeometry()
     const starCount = 2000
 
@@ -116,37 +123,17 @@ function init() {
     viewerDiv.appendChild(cssRenderer.domElement)
 
     const aspect = viewerDiv.clientWidth / viewerDiv.clientHeight
-    const frustumSize = 5
 
     cameraPersp = new THREE.PerspectiveCamera(50, aspect, 0.1, 100)
-    cameraPersp.userData = {
-        synchronizable: true,
-    }
-    cameraOrtho = new THREE.OrthographicCamera(
-        -frustumSize * aspect,
-        frustumSize * aspect,
-        frustumSize,
-        -frustumSize,
-        0.1,
-        100
-    )
-    cameraOrtho.userData = {
-        synchronizable: true,
-    }
+
     currentCamera = cameraPersp
 
-    // Iniciar com visão frontal
     currentCamera.position.set(0, 1, 8)
     currentCamera.lookAt(0, 0, 0)
 
     scene = new THREE.Scene()
     initSky()
 }
-
-let currentCameraX = 0
-let currentCameraY = 0
-let targetCameraX = 0
-let targetCameraY = 0
 
 function lerp(start, end, amount) {
     return start + (end - start) * amount 
@@ -172,52 +159,31 @@ function moveScreenWithMouse(event) {
 }
 
 function addParallaxEffect() {
-    window.addEventListener('mousemove', (event) => {
-        moveScreenWithMouse(event)
-    })
+    window.addEventListener('mousemove', moveScreenWithMouse)
 
-    iframeAbout.addEventListener("mouseenter", () => {
-        iframeAbout.contentWindow.document.addEventListener("mousemove", (event) => {
-            const iframeRect = iframeAbout.getBoundingClientRect()
-            
-            const simulatedEvent = new MouseEvent("mousemove", {
-                bubbles: true,
-                clientX: event.clientX + iframeRect.left,
-                clientY: event.clientY + iframeRect.top 
-            });
-    
-            window.dispatchEvent(simulatedEvent);
-        })
-    })
+    setupIframeParallax(iframeAbout)
+    setupIframeParallax(iframeContact)
+    setupIframeParallax(iframeMyWork)
+}
 
-    iframeContact.addEventListener("mouseenter", () => {
-        iframeContact.contentWindow.document.addEventListener("mousemove", (event) => {
-            const iframeRect = iframeContact.getBoundingClientRect()
-            
-            const simulatedEvent = new MouseEvent("mousemove", {
-                bubbles: true,
-                clientX: event.clientX + iframeRect.left,
-                clientY: event.clientY + iframeRect.top 
-            });
-    
-            window.dispatchEvent(simulatedEvent);
+function setupIframeParallax(iframe) {
+    iframe.addEventListener("mouseenter", () => {
+        iframe.contentWindow.document.addEventListener("mousemove", (event) => {
+            dispatchSimulatedMouseEvent(event, iframe)
         })
     })
+}
+
+function dispatchSimulatedMouseEvent(event, iframe) {
+    const iframeRect = iframe.getBoundingClientRect()
     
-    iframeMyWork.addEventListener("mouseenter", () => {
-        iframeMyWork.contentWindow.document.addEventListener("mousemove", (event) => {
-            const iframeRect = iframeMyWork.getBoundingClientRect()
-            
-            const simulatedEvent = new MouseEvent("mousemove", {
-                bubbles: true,
-                clientX: event.clientX + iframeRect.left,
-                clientY: event.clientY + iframeRect.top 
-            });
-    
-            window.dispatchEvent(simulatedEvent);
-        })
-    })
-    
+    const simulatedEvent = new MouseEvent("mousemove", {
+        bubbles: true,
+        clientX: event.clientX + iframeRect.left,
+        clientY: event.clientY + iframeRect.top 
+    });
+
+    window.dispatchEvent(simulatedEvent)
 }
 
 function importSpecificModel(filePath) {
@@ -287,10 +253,6 @@ function onWindowResize() {
     cameraPersp.aspect = aspect
     cameraPersp.updateProjectionMatrix()
 
-    cameraOrtho.left = cameraOrtho.bottom * aspect
-    cameraOrtho.right = cameraOrtho.top * aspect
-    cameraOrtho.updateProjectionMatrix()
-
     renderer.setSize( viewerDiv.clientWidth, viewerDiv.clientHeight )
     
     renderer.setPixelRatio(window.devicePixelRatio)
@@ -300,16 +262,11 @@ function onWindowResize() {
 
 window.addEventListener( 'resize', onWindowResize )
 
-let targetColor = new THREE.Color('#000000')
-let currentColor = new THREE.Color('#000000')
-
-const transitionSpeed = 0.01 
-
 function updateLightColors() {
 
     if (currentColor != targetColor) {
 
-        currentColor.lerp(targetColor, transitionSpeed)
+        currentColor.lerp(targetColor, 0.01)
 
         scene.traverse(function (object) {
             if (object.isLight && object.name != 'Area_Orientation' ) {
@@ -400,80 +357,71 @@ document.addEventListener("mousemove", (event) => handleMouseMove(event, buttonA
 document.addEventListener("mousemove", (event) => handleMouseMove(event, myWork))
 document.addEventListener("mousemove", (event) => handleMouseMove(event, contact))
 
-myWork.addEventListener('mouseenter', () => {
-    if (initial) {
-        initEffects()
-    } else {
-        if (!select.paused) {
-            select.pause()
-            select.currentTime = 0
-        }
-        select.play()
-    }
+function manageEffects() {
+    initial ? initEffects() : restartAndPlaySelect()
     shockWaveAnimation()
-    iframeAbout.style.display = 'none'
-    iframeMyWork.style.display = 'block'
-    iframeContact.style.display = 'none'
-    screenDiv.classList.remove('screen-theme-default', 'screen-theme1', 'screen-theme2', 'screen-theme3')
-    screenDiv.classList.add('screen-theme2', 'screen-theme2-hover')
-    neonDiv.classList.remove("neon-default", "neon-theme1", "neon-theme2", "neon-theme3")
-    neonDiv.classList.add("neon-theme2")
-    targetColor = new THREE.Color('#FF9CDF')
-})
+}
 
-myWork.addEventListener('mouseleave', () => {
-    screenDiv.classList.remove('screen-theme2-hover')
-})
-
-buttonAbout.addEventListener('mouseenter', () => {
-    if (initial) {
-        initEffects()
-    } else {
-        if (!select.paused) {
-            select.pause()
-            select.currentTime = 0
-        }
-        select.play()
+function restartAndPlaySelect() {
+    if (!select.paused) {
+        select.pause()
+        select.currentTime = 0
     }
-    shockWaveAnimation()
-    iframeAbout.style.display = 'block'
-    iframeMyWork.style.display = 'none'
-    iframeContact.style.display = 'none'
-    screenDiv.classList.remove('screen-theme-default', 'screen-theme1', 'screen-theme2', 'screen-theme3')
-    screenDiv.classList.add('screen-theme1', 'screen-theme1-hover') 
-    neonDiv.classList.remove("neon-default", "neon-theme1", "neon-theme2", "neon-theme3")
-    neonDiv.classList.add("neon-theme1")
-    targetColor = new THREE.Color('#824dec')
-})
+    select.play()
+}
 
-buttonAbout.addEventListener('mouseleave', () => {
-    screenDiv.classList.remove('screen-theme1-hover')
-})
+function setIframeDisplay(aboutVisible, myWorkVisible, contactVisible) {
+    iframeAbout.style.display = aboutVisible ? 'block' : 'none'
+    iframeMyWork.style.display = myWorkVisible ? 'block' : 'none'
+    iframeContact.style.display = contactVisible ? 'block' : 'none'
+}
 
-contact.addEventListener('mouseenter', () => {
-    if (initial) {
-        initEffects()
-    } else {
-        if (!select.paused) {
-            select.pause()
-            select.currentTime = 0
-        }
-        select.play()
+function updateScreenTheme(theme) {
+    screenDiv.className = ''
+    screenDiv.classList.add(`screen-theme${theme}`, `screen-theme${theme}-hover`);
+}
+
+function updateNeonTheme(theme) {
+    neonDiv.className = ''
+    neonDiv.classList.add(`neon-theme${theme}`)
+}
+
+function handleMouseEnter(section) {
+    manageEffects()
+    switch (section) {
+        case 'myWork':
+            setIframeDisplay(false, true, false)
+            updateScreenTheme(2)
+            updateNeonTheme(2)
+            targetColor = new THREE.Color('#FF9CDF')
+            break
+        case 'about':
+            setIframeDisplay(true, false, false)
+            updateScreenTheme(1)
+            updateNeonTheme(1)
+            targetColor = new THREE.Color('#824dec')
+            break
+        case 'contact':
+            setIframeDisplay(false, false, true)
+            updateScreenTheme(3)
+            updateNeonTheme(3)
+            targetColor = new THREE.Color('#00958D')
+            break
     }
-    shockWaveAnimation()
-    iframeAbout.style.display = 'none'
-    iframeMyWork.style.display = 'none'
-    iframeContact.style.display = 'block'
-    screenDiv.classList.remove('screen-theme-default', 'screen-theme1', 'screen-theme2', 'screen-theme3')
-    screenDiv.classList.add('screen-theme3', 'screen-theme3-hover') 
-    neonDiv.classList.remove("neon-default", "neon-theme1", "neon-theme2", "neon-theme3")
-    neonDiv.classList.add("neon-theme3")
-    targetColor = new THREE.Color('#00958D')
-})
+}
 
-contact.addEventListener('mouseleave', () => {
-    screenDiv.classList.remove('screen-theme3-hover')
-})
+function handleMouseLeave(theme) {
+    screenDiv.classList.remove(`screen-theme${theme}-hover`)
+}
+
+myWork.addEventListener('mouseenter', () => handleMouseEnter('myWork'))
+myWork.addEventListener('mouseleave', () => handleMouseLeave(2))
+
+buttonAbout.addEventListener('mouseenter', () => handleMouseEnter('about'))
+buttonAbout.addEventListener('mouseleave', () => handleMouseLeave(1))
+
+contact.addEventListener('mouseenter', () => handleMouseEnter('contact'))
+contact.addEventListener('mouseleave', () => handleMouseLeave(3))
 
 sound.addEventListener('click', function () {
     if (sound.classList.contains('active')) {
