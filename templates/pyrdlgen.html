@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>PyRDLGen</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/pyrdlgen.css">
+    <script>
+        hljs.highlightAll()
+        document.addEventListener("click", function () {
+            window.parent.postMessage("iframeClicked", "*")
+        })
+    </script>
+</head>
+<body>
+
+    <div class="my-container">
+        <a href="/index.html">
+            <i class="fas fa-home arrow" title="Voltar"></i>
+        </a>
+        <div class="menus-container">
+            <a href="/templates/myWork.html" style="text-decoration: none;">
+                <span data-lang="button-my-work" class="menus">
+                    My Work
+                </span>
+            </a>
+            
+            <a href="/templates/about.html" style="text-decoration: none;">
+                <span data-lang="button-about" class="menus">
+                    About Me
+                </span>
+            </a>
+
+            <a style="text-decoration: none;">
+                <span class="menus" title="Available soon">
+                    Droply
+                </span>
+            </a>
+
+            <a href="/templates/contact.html" style="text-decoration: none;">
+                <span class="menus" data-lang="button-contact" title="Available soon">
+                    Contact
+                </span>
+            </a>
+        </div>
+
+        <div class="texto-container">
+            <h1 data-lang="title-pyrdlgen"></h1>
+            <h2 data-lang="subtitle-pyrdlgen"></h2>
+            <h3 data-lang="description-pyrdlgen"></h3>
+            <br>
+            <div style="color: black;">
+
+                <div class="card mb-4">
+                    <div class="card-body text-left">
+                        <h2 data-lang="install-title"></h2>
+                        <pre><code class="language-bash" data-lang="install-code"></code></pre>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body text-left">
+                        <h2 data-lang="usage-title"></h2>
+                        <pre><code class="language-python" data-lang="usage-code"></code></pre>
+                    </div>
+                </div>
+        
+                <div class="card mb-4">
+                    <div class="card-body text-left">
+                        <h2 data-lang="params-title"></h2>
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>path</strong>: <span data-lang="param-path"></span></li>
+                            <li class="list-group-item">
+                                <strong>params</strong>: 
+                                <span data-lang="param-params"></span>
+                                <br>
+                                <span class="badge badge-secondary" data-lang="param-params-example-dataframe"></span>
+                                <pre><code class="language-python" data-lang="param-params-example-dataframe-code"></code></pre>
+                                <br>
+                                <span class="badge badge-secondary" data-lang="param-params-example-procedure"></span>
+                                <pre><code class="language-python" data-lang="param-params-example-procedure-code"></code></pre>
+                            </li>
+                            <li class="list-group-item"><strong>timeout</strong>: <span data-lang="param-timeout"></span></li>
+                            <li class="list-group-item"><strong>returns</strong>: <span data-lang="param-returns"></span></li>
+                        </ul>
+                    </div>
+                </div>
+        
+                <div class="card mb-4">
+                    <div class="card-body text-left">
+                        <h2 data-lang="example-title"></h2>
+                        <pre><code class="language-python" data-lang="example-code"></code></pre>
+                    </div>
+                </div>
+            </div>    
+            
+        </div>
+
+        <div class="imagem-container">
+            <img src="/media/pyrdlgen.png">
+        </div>
+
+        <script>
+            const translations = {
+                pt: {
+                    "title-pyrdlgen": "Documentação PyRdlGen",
+                    "subtitle-pyrdlgen": "PyRdlGen é uma biblioteca Python para processamento de relatórios RDL/RDLC.",
+                    "description-pyrdlgen": `PyRdlGen permite processar relatórios a partir de arquivos RDL/RDLC previamente configurados, e exporta para <code>PDF</code>, <code>Excel</code> e <code>html</code>. <br>Os dados são passados dinamicamente através de <code>dataframes pandas</code> ou <code>procedimentos SQL</code>, o que permite grande flexibilidade.<br>Pode ser integrado facilmente em <code>Jupyter Notebooks</code>, frameworks web como <code>Streamlit</code>, <code>Django</code>, etc. Compatível com Windows e Linux (via Wine).`,
+                    "install-title": "Instalação",
+                    "install-code": `pip install pyrdlgen`,
+                    "usage-title": "Uso",
+                    "usage-code": `from pyrdlgen import render_report
+
+report = render_report("caminho/do/relatorio.rdl", {
+    "RdlParameters": {...},
+    "DataSources": {...},
+    "Format": "pdf"
+})
+
+report.save("saida.pdf")`,
+
+                    "params-title": "Parâmetros",
+                    "param-path": "Caminho para o arquivo RDL ou RDLC.",
+                    "param-params": "Dicionário com parâmetros do RDL, fontes de dados, ConnectionString (string de conexão caso seja usado procedures SQL) e formato de saída. Pode incluir DataFrames Pandas ou nomes de procedures SQL com seus respectivos parâmetros.",
+                    "param-timeout": "Tempo máximo de execução em segundos (padrão: 120).",
+                    "param-returns": "Objeto <code>RenderedReport</code>, com métodos como <code>.save()</code>, <code>.to_bytes()</code>, <code>.to_base64()</code>, <code>.to_stream()</code>.",
+
+                    "example-title": "Exemplo completo",
+                    "example-code": `import pandas as pd
+from pyrdlgen import render_report
+
+df = pd.DataFrame({
+    "Produto": ["A", "B", "C"],
+    "Preço": [10, 20, 30]
+})
+
+params = {
+    "RdlParameters": {"Titulo": "Relatório de Vendas"},
+    "DataSources": {"MinhaFonte": df.to_dict(orient="records")},
+    "Format": "pdf"
+}
+
+report = render_report("path/to/report.rdl", params)
+report.save("vendas.pdf")`,
+
+                    "param-params-example-dataframe": "Exemplo de parametros usando DataFrame",
+                    "param-params-example-dataframe-code": `{
+    "RdlParameters": {
+        "DataIn": "07/10/1995 00:00:00",
+        "DataFi": "27/09/2024 00:00:00",
+        "userLang": "pt-BR"
+        },
+    "DataSources": {
+        "MinhaFonte1": df.to_dict(orient="records"),
+        "MinhaFonte2": df2.to_dict(orient="records")
+    },
+    "Format": "html"
+}
+#ConnectionString não é necessário quando se usa DataFrames`
+,
+                    "param-params-example-procedure": "Exemplo de parametros usando procedimento SQL",
+                    "param-params-example-procedure-code": `{
+    "RdlParameters": {
+        "DataIn": "07/10/1995 00:00:00",
+        "DataFi": "27/09/2024 00:00:00",
+        "userLang": "pt-BR"
+        },
+    "ConnectionString": "Data Source=localhost; 
+    Initial Catalog=db_name; 
+    User ID=sa; Password=my_password; 
+    Connection Timeout=300; 
+    TrustServerCertificate=True",
+    "DataSources": {
+        "dbo.MinhaProcedure1": {
+            "param1": "valor1",
+            "param2": "valor2"
+        },
+        "dbo.MinhaProcedure2": {
+            "param1": "valor1",
+            "param2": "valor2"
+        }
+    },
+    "Format": "pdf"
+}`,
+
+                    "button-contact": "Contato",
+                    "button-my-work": "Meu trabalho",
+                    "button-about": "Sobre mim"
+                },
+
+                en: {
+                    "title-pyrdlgen": "PyRdlGen Documentation",
+                    "subtitle-pyrdlgen": "PyRdlGen is a Python library for processing RDL/RDLC reports.",
+                    "description-pyrdlgen": `PyRdlGen allows processing reports from pre-configured RDL/RDLC files, and exports to <code>PDF</code>, <code>Excel</code>, and <code>html</code>. Data is passed dynamically through <code>pandas dataframes</code> or <code>SQL procedures</code>, allowing great flexibility. It can be easily integrated into <code>Jupyter Notebooks</code>, web frameworks like <code>Streamlit</code>, <code>Django</code>, etc. Compatible with Windows and Linux (via Wine).`,
+                    "install-title": "Installation",
+                    "install-code": `pip install pyrdlgen`,
+                    "usage-title": "Usage",
+                    "usage-code": `from pyrdlgen import render_report
+
+report = render_report("path/to/report.rdl", {
+    "RdlParameters": {...},
+    "DataSources": {...},
+    "Format": "pdf"
+})
+
+report.save("output.pdf")`,
+
+                    "params-title": "Parameters",
+                    "param-path": "Path to the RDL or RDLC file.",
+                    "param-params": "Dictionary with RDL parameters, data sources, ConnectionString (connection string if using SQL procedures), and output format. Can include Pandas DataFrames or names of SQL procedures with their respective parameters.",
+                    "param-timeout": "Max execution time in seconds (default: 120).",
+                    "param-returns": "<code>RenderedReport</code> object with helpers like <code>.save()</code>, <code>.to_bytes()</code>, <code>.to_base64()</code>, <code>.to_stream()</code>.",
+
+                    "example-title": "Complete Example",
+                    "example-code": `import pandas as pd
+from pyrdlgen import render_report
+df = pd.DataFrame({
+    "Product": ["A", "B", "C"],
+    "Price": [10, 20, 30]
+})
+
+params = {
+    "RdlParameters": {"Title": "Sales Report"},
+    "DataSources": {"MyDataSource": df.to_dict(orient="records")},
+    "Format": "pdf"
+}
+
+report = render_report("path/to/report.rdl", params)
+report.save("vendas.pdf")`,
+
+                    "param-params-example-dataframe": "Example parameters using DataFrame",
+                    "param-params-example-dataframe-code": `{
+    "RdlParameters": {
+        "DataIn": "07/10/1995 00:00:00",
+        "DataFi": "27/09/2024 00:00:00",
+        "userLang": "pt-BR"
+        },
+    "DataSources": {
+        "MySource1": df.to_dict(orient="records"),
+        "MySource2": df2.to_dict(orient="records")
+    },
+    "Format": "html"
+}
+#ConnectionString is not necessary when using DataFrames`,
+
+                    "param-params-example-procedure": "Example parameters using SQL procedure",
+                    "param-params-example-procedure-code": `{
+    "RdlParameters": {
+        "DataIn": "07/10/1995 00:00:00",
+        "DataFi": "27/09/2024 00:00:00",
+        "userLang": "pt-BR"
+        },
+    "ConnectionString": "Data Source=localhost; Initial Catalog=db_name; User ID=sa; Password=my_password; Connection Timeout=300; TrustServerCertificate=True",
+    "DataSources": {
+        "dbo.MyProcedure1": {
+            "param1": "value1",
+            "param2": "value2"
+        },
+        "dbo.MyProcedure2": {
+            "param1": "value1",
+            "param2": "value2"
+        }
+    },
+    "Format": "html"
+}`,
+
+                "button-contact": "Contact",
+                "button-my-work": "My Work",
+                "button-about": "About me"
+                }
+            };
+
+            function setLanguage(lang) {
+                document.querySelectorAll("[data-lang]").forEach((element) => {
+                    const key = element.getAttribute("data-lang");
+                    if (translations[lang] && translations[lang][key]) {
+                        element.innerHTML = translations[lang][key];
+                    }
+                });
+                document.documentElement.lang = lang;
+            }
+
+            const userLang = navigator.language || navigator.userLanguage;
+            const lang = userLang.startsWith("pt") ? "pt" : "en";
+            setLanguage(lang);
+        </script>
+    </div>
+</body>
+</html>

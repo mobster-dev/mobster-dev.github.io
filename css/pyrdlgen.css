@@ -9,17 +9,50 @@ body {
     overflow: hidden;
 }
 
-.video-chroma {
-    mix-blend-mode: screen;
+body::before {
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 168, 87, 0.2),
+        rgba(130, 77, 236, 0.2),
+        rgba(198, 65, 207, 0.2),
+        rgba(0, 168, 87, 0.2)
+    );
+    background-size: 300% 300%; 
+    animation: gradient-shift 15s infinite, pulse 3s infinite; 
+    z-index: -1;
 }
 
-.container {
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 80%;
+    }
+    15%{
+    }
+    50% {
+        background-position: 100% 30%;
+    }
+    75%{
+    }
+    100% {
+        background-position: 0% 80%;
+    }
+}
+
+.hljs {
+    color: #c9d1d9;
+    background: #3a3a3a;
+    border-radius: 3px;
+}
+
+.my-container {
     display: flex;
-    background: linear-gradient(90deg, #8c8c8c00 5%, #0000003d 40%, #000000bf  60%);
+    background: linear-gradient(90deg, #8c8c8c00 5%, #00000013 40%, #00000028 60%);
     margin: 30px;
     box-shadow: 0 0 50px 5px rgb(0, 0, 0);
     border-radius: 5px;
@@ -27,15 +60,29 @@ body {
     -webkit-backdrop-filter: blur(15px);
 }
 
+.my-container h1 {
+    font-size: 3vw;
+    margin: 30px;
+}
+
+.my-container h2 {
+    font-size: 2.0vw;
+}
+
+.my-container h3 {
+    font-size: 1.05vw;
+    color: rgb(235, 235, 235);
+    text-align: start !important;
+}
+
 .texto-container {
     width: 60%;
-    text-align: end;
+    text-align: center;
     color: white;
     margin: 20px 0 0 20px;
     padding-left: 10px;
     direction: rtl;
     overflow-y: scroll;
-    
 }
 
 .texto-container > * {
@@ -74,47 +121,13 @@ body {
 }
 
 .imagem-container {
-    display: flex;
-    flex-direction: column;
     padding-top: 2%;
-    text-align: center;
 }
 
 .imagem-container img {
-    max-width: 100%;
+    max-width: 90%;
     max-height: 100%;
     object-fit: contain;
-}
-
-a {
-    color: rgb(255, 255, 255);
-    font-style: italic;
-    font-weight: bold;
-}
-
-b {
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-}
-
-i {
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-}
-
-h1 {
-    font-size: 3vw;
-    color: orange;
-}
-
-h2 {
-    font-size: 2.5vw;
-}
-
-h3 {
-    font-size: 1.05vw;
-    color: rgb(235, 235, 235);
-    text-align: start !important;
 }
 
 @media (max-width: 1080px) {
