@@ -122,11 +122,12 @@ body::before {
 
 .imagem-container {
     padding-top: 2%;
+    text-align: center;
 }
 
 .imagem-container img {
-    max-width: 90%;
-    max-height: 100%;
+    max-width: 70%;
+    max-height: 80%;
     object-fit: contain;
 }
 
